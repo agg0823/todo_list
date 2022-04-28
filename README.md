@@ -68,3 +68,75 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `yarn build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+# To do List 만들기
+
+1. 프로젝트 준비
+
+터미널 입력
+```
+yarn create react-app todo-test
+```
+
+디렉터리 들어가기
+```
+cd todo-test
+```
+
+필요 프로그램 설치
+```
+yarn add styled-components react-icons
+```
+
+root폴더에 `.prettierrc`파일을 생성
+코드 입력
+```
+{
+    "arrowParens": "always",
+    "semi": true,
+    "singleQuote": true,
+    "useTabs": false,
+    "trailingComma": "all",
+    "tabWidth": 2,
+    "printWidth": 80
+}
+```
+
+root폴더에 `jsconfig.json` 파일을 생성
+코드 입력
+```
+{
+    "compilerOptions": {
+        "target": "es6",
+        "baseUrl": "src"
+    },
+    "include": ["src"]
+}
+```
+
+index.css 수정
+```
+body {
+  margin: 0;
+  padding: 0;
+  background: #e9ecef;
+}
+```
+
+App.js에 내용 삭제하고 rsc+tab
+코드 입력
+```
+import React from 'react';
+
+const App = () => {
+  return (
+    <div>
+      Todo리스트 만들기 준비 완료!!
+    </div>
+  );
+};
+
+export default App;
+```

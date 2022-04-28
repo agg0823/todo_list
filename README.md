@@ -1,79 +1,6 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-
-
 # To do List 만들기
 
-1. 프로젝트 준비
+## 프로젝트 준비
 
 터미널 입력
 ```
@@ -135,6 +62,322 @@ const App = () => {
     <div>
       Todo리스트 만들기 준비 완료!!
     </div>
+  );
+};
+
+export default App;
+```
+
+## 소스 입력
+src폴더 내에 `components` 폴더를 생성
+
+`components` 폴더에 컴포넌트 만들기
+
+1. `TodoTemplate.js`
+2. `TodoInsert.js`
+3. `TodoListItem.js`
+4. `TodoList.js`
+
+
+## 완성 코드
+
+### TodoTemplate.js
+
+```
+import React from 'react';
+import styled from 'styled-components';
+
+const TodoTemplate = ({ children }) => {
+  return (
+    <TodoWrapper>
+      <AppTile>Todo List</AppTile>
+      <Content>{children}</Content>
+    </TodoWrapper>
+  );
+};
+const TodoWrapper = styled.div`
+  width: 512px;
+  margin: 6rem auto 0;
+  border-radius: 20px;
+  overflow: hidden;
+`;
+
+const AppTile = styled.div`
+  background: #B7C4EF;
+  color: #fff;
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Content = styled.div`
+  background: #ffffff;
+`;
+
+export default TodoTemplate;
+```
+
+
+### TodoInsert.js
+
+```
+import React, { useCallback, useState } from 'react';
+import { MdAdd } from 'react-icons/md';
+import styled from 'styled-components';
+
+const TodoInsert = ({onInsert}) => {
+    const [value, setValue] = useState('');
+
+    const onChange = useCallback((e) => {
+        setValue(e.target.value);
+    }, []);
+
+    //onSubmit 이벤트 설정
+    const onSubmit = useCallback(
+        (e) => {
+            onInsert(value);
+            setValue('');
+            e.preventDefault();
+        },
+        [onInsert, value]
+    )
+
+    return (
+        <TodoInsertWrapper onSubmit={onSubmit}>
+            <input 
+            type="text" 
+            placeholder='할 일을 입력하세요'
+            value={value}
+            onChange={onChange}
+            />
+            <button type="submit"><MdAdd /></button>
+        </TodoInsertWrapper>
+    );
+};
+
+const TodoInsertWrapper = styled.form`
+  display: flex;
+  background: #E5DBEE;
+  input {
+    background: none;
+    outline: none;
+    border: none;
+    padding: 0.5rem;
+    font-size: 1.125rem;
+    line-height: 1.5;
+    color: #796F83;
+    &::placeholder {
+      color: #AE9CC1;
+    }
+    flex: 1;
+  }
+  button {
+    background: #AE9CC1;
+    outline: none;
+    border: none;
+    color: #fff;
+    padding: 0 1rem;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.1s background ease-in;
+    &:hover {
+      background: #868296;
+    }
+  }
+`;
+
+export default TodoInsert;
+```
+
+
+### TodoListItem.js
+
+```
+import React from 'react';
+import styled from 'styled-components';
+import {
+  MdCheckBox,
+  MdCheckBoxOutlineBlank,
+  MdRemoveCircleOutline,
+} from 'react-icons/md';
+import cn from 'classnames';
+
+const TodoListItem = ({ todo, onRemove, onToggle }) => {
+  const { id, text, checked } = todo;
+
+  return (
+    <TodoItemWrapper>
+      <CheckBox
+        className={cn('checkbox', { checked })}
+        onClick={() => onToggle(id)}
+      >
+        {checked ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
+        <div className="text">{text}</div>
+      </CheckBox>
+      <Remove onClick={() => onRemove(id)}>
+        <MdRemoveCircleOutline />
+      </Remove>
+    </TodoItemWrapper>
+  );
+};
+
+
+const TodoItemWrapper = styled.div`
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  &:nth-child(even) {
+    background: #F9F7FC;
+  }
+  & + & {
+    border-top: 1px solid #dee2e6;
+  }
+`;
+
+const CheckBox = styled.div`
+  cursor: pointer;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  svg {
+    font-size: 1.5rem;
+    color: #69677A;
+  }
+  .text {
+    margin-left: 0.5rem;
+    flex: 1;
+    color: #69677A;
+  }
+  &.checked {
+    svg {
+      color: #8A99D4;
+    }
+    .text {
+      color: #adb5bd;
+      text-decoration: line-through;
+    }
+  }
+`;
+
+const Remove = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  color: #B0A8F3;
+  cursor: pointer;
+  &:hover {
+    color: #A29BE2;
+  }
+`;
+
+export default TodoListItem;
+```
+
+
+### TodoList.js
+
+```
+import React from 'react';
+import TodoListItem from 'components/TodoListItem';
+import styled from 'styled-components';
+
+const TodoList = ({ todos, onRemove, onToggle }) => {
+  return (
+    <TodoListWrapper>
+      {todos.map((todo) => (
+        <TodoListItem
+          todo={todo}
+          key={todo.id}
+          onRemove={onRemove}
+          onToggle={onToggle}
+        />
+      ))}
+    </TodoListWrapper>
+  );
+};
+
+
+const TodoListWrapper = styled.div`
+  min-height: 320px;
+  max-height: 513px;
+  overflow: auto;
+`;
+
+export default TodoList;
+```
+
+### App.js
+
+```
+import React, { useRef, useState, useCallback } from 'react';
+import TodoTemplate from 'components/TodoTemplate';
+import TodoInsert from 'components/TodoInsert';
+import TodoList from 'components/TodoList';
+
+
+const App = () => {
+  const [todos, setTodos] = useState([
+    {
+      id : 1,
+      text : '할일1',
+      checked : true,
+    },
+    {
+      id : 2,
+      text : '할일2',
+      checked : true,
+    },
+    {
+      id : 3,
+      text : '할일3',
+      checked : false,
+    }
+  ]);
+
+  //고윳값을 가질 id생성
+  const nextId = useRef(4);
+
+  //onInsert함수
+  const onInsert = useCallback(
+    (text) => {
+      const todo = {
+        id : nextId.current,
+        text,
+        checked :false
+      };
+      setTodos(todos.concat(todo));
+      nextId.current += 1; 
+    }
+  );
+  
+  //항목 지우기
+  const onRemove = useCallback(
+    (id) => {
+      setTodos(todos.filter((todo) => todo.id !== id));
+    },
+    [todos],
+  );
+
+  //onToggle 체크박스
+  const onToggle = useCallback(
+    (id) => {
+      setTodos(
+        todos.map((todo) =>
+          todo.id === id ? { ...todo, checked: !todo.checked } : todo,
+        ),
+      );
+    },
+    [todos],
+  );
+
+  return (
+    <TodoTemplate>
+      <TodoInsert onInsert={onInsert} />
+      <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle} />
+    </TodoTemplate>
   );
 };
 
